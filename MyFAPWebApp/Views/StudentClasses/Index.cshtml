@@ -1,0 +1,80 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+<script>
+    function exportTableToExcel() {
+      var table = document.getElementById("myTable");
+      var wb = XLSX.utils.table_to_book(table);
+      var wbout = XLSX.write(wb, {bookType:'xlsx', type:'binary'});
+      function s2ab(s) {
+        var buf = new ArrayBuffer(s.length);
+        var view = new Uint8Array(buf);
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+      }
+      saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'Class.xlsx');
+    }
+    </script>
+<style>
+    .selected {
+        background-color: yellow;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+<div class="container">
+    <div>Danh sách lớp:</div>
+    @if (ViewBag.Classes != null)
+    {
+        @foreach (var item in ViewBag.Classes)
+        {
+            <div>
+
+                @if (item.teacher_id != null)
+                {
+                    <div><a @(ViewBag.class_id == item.ClassId.Trim() && ViewBag.subject_id == item.SubjectId.Trim() ? "class=selected" : "") href="StudentClasses?class_id=@item.ClassId&subject_id=@item.SubjectId"> Lớp: @item.ClassName Môn: @item.SubjectName</a> - Giáo viên: @item.teacher_name </div>
+                }
+                else
+                {
+                    <div><a @(ViewBag.class_id == item.ClassId.Trim() && ViewBag.subject_id == item.SubjectId.Trim() ? "class=selected" : "") href="StudentClasses?class_id=@item.ClassId&subject_id=@item.SubjectId"> Lớp: @item.ClassName Môn: @item.SubjectName</a> - Giáo viên: Chưa có giáo viên </div>
+                }
+            </div>
+        }
+
+    }
+    
+    @if (ViewBag.Member != null)
+    {
+       <div>Danh sách sinh viên</div>
+        <div>
+            <table style="width:30%" id="myTable">
+                <tr>
+                    <th>StudentID</th>
+                    <th>Student Name</th>
+                </tr>
+                  
+                
+                
+                    @foreach (var item in ViewBag.Member)
+                    {
+                        <tr>
+                            <td>
+                            @item.StudentId
+                        </td>
+                        <td>@item.StudentName</td>
+                    </tr>
+                    }
+               
+            
+            </table>
+        </div>
+        <button onclick="exportTableToExcel()">Export to Excel</button>
+    }
+</div>

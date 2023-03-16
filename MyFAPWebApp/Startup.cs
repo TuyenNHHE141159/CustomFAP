@@ -14,6 +14,7 @@ namespace MyFAPWebApp
             //services.AddDbContext<MyFapContext>(o =>
             //o.UseSqlServer(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("MyDB")));
             //services.AddScoped(typeof(MyFapContext));
+            //services.AddDbContext<MyFapContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyFapContext")));
             services.AddControllersWithViews();
         }
 
@@ -33,10 +34,10 @@ namespace MyFAPWebApp
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=StudentHome}/{action=Index}?{student_id?&&subject_id?}"
-                    );
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=StudentHome}/{action=Index}?{student_id?&&subject_id?}"
+                //    );
             });
         }
     }

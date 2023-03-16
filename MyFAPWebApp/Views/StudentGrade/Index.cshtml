@@ -1,0 +1,75 @@
+﻿
+@model IEnumerable<ClassesOfStudent>
+<h1>Student Home View</h1>
+@using MyFAPWebApp.Models.DTO
+@using MyFAPWebApp.Models
+@{
+    Mark mark = ViewBag.Mark;
+    double avg = 0;
+    string avg_string = "";
+    string status = "";
+    string nomark = ViewBag.nomark;
+    if (mark != null)
+    {
+        avg = ViewBag.Avg;
+        avg_string = avg.ToString();
+        status = ViewBag.Status;
+    }
+    string studentID = ViewBag.StudentID;
+}
+<style>
+    .selected {
+        background-color: yellow;
+     
+    }
+</style>
+<script>
+    function highlightSelected(link) {
+       
+        // Xóa lớp CSS 'selected' khỏi tất cả các liên kết
+        var links = document.querySelectorAll('a');
+        links.forEach(function (link) {
+            link.classList.remove('selected');
+        });
+
+        // Thêm lớp CSS 'selected' cho liên kết được chọn
+       
+        link.classList.add('selected');  
+    }
+</script>
+<div class="container">
+    <div>Hello @studentID</div>
+    @foreach (var item in Model)
+    {
+        <div>
+           @* <a asp-area="" asp-controller="StudentHome" asp-action="Index" asp-route-student_id=@item.StudentId.Trim()
+           asp-route-subject_id=@item.SubjectId.Trim() onclick="highlightSelected(this)">@item.SubjectName (@item.SubjectId) (@item.ClassName)</a>*@
+            <a href="StudentGrade?student_id=@item.StudentId.Trim()&subject_id=@item.SubjectId.Trim()"
+            @(ViewBag.subject_id == item.SubjectId.Trim() ? "class=selected" : "")>@item.SubjectName (@item.SubjectId) (@item.ClassName) </a>
+        </div>
+    }
+    @if (mark != null)
+    {
+        <div>
+            <div>Lab (25%): @mark.Lab</div>
+            <div>Progrest Test (25%): @mark.ProgrestTest</div>
+            <div>PE (25%):@mark.Pe</div>
+            <div>FE (25%):@mark.Fe</div>
+            <div>AVERAGE:@avg_string</div>
+            <div>STATUS: @status</div>
+        </div>
+    }
+    @if (nomark != null)
+    {
+        <div>
+            <div>Lab (25%): </div>
+            <div>Progrest Test (25%):</div>
+            <div>PE (25%):</div>
+            <div>FE (25%):</div>
+            <div>AVERAGE:</div>
+            <div>STATUS: </div>
+        </div>
+    }
+</div>
+
+

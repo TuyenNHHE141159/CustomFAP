@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyFAPWebApp.Models;
 using MyFAPWebApp.Models.DTO;
+using System.Runtime.Intrinsics.X86;
 
 namespace MyFAPWebApp.Controllers
 {
-    public class StudentHomeController : Controller
+    public class StudentGradeController : Controller
     {
         private readonly MyFapContext myFapContext= new MyFapContext();
 
-        public IActionResult Index(string student_id,string subject_id)
+        public IActionResult Index(string student_id, string subject_id)
         {
             string studentId = "HE153453";
             ViewData["StudentID"] = studentId;
@@ -38,28 +39,35 @@ namespace MyFAPWebApp.Controllers
                 cos.ClassId = c.ClassId;
                 cos.ClassName = c.ClassName;
                 classes.Add(cos);
-            }         
+            }
             Mark mark = new Mark();
-            if(student_id != null && subject_id!= null)
+            if (student_id != null && subject_id != null)
             {
-                mark=myFapContext.Marks.Where(x=>x.SubjectId==subject_id && x.StudentId==student_id).FirstOrDefault();
+                ViewData["student_id"] = student_id.Trim();
+                ViewData["subject_id"] = subject_id.Trim();
+                mark = myFapContext.Marks.Where(x => x.SubjectId == subject_id && x.StudentId == student_id).FirstOrDefault();
                 if (mark != null)
                 {
-                    ViewData["Mark"]=mark;
-                    double avg=(double) (mark.Lab + mark.Fe + mark.ProgrestTest + mark.Pe) / 4;
+                    ViewData["Mark"] = mark;
+                    double avg = (double)(mark.Lab + mark.Fe + mark.ProgrestTest + mark.Pe) / 4;
                     avg = Math.Round(avg, 1);
                     string status = "Not Passed";
-                    if(avg >=5 )
+                    if (avg >= 5)
                     {
                         status = "Passed";
                     }
                     ViewData["Avg"] = avg;
                     ViewData["Status"] = status;
+                   
 
-                }              
-            }                  
+                }
+                else
+                {
+                    ViewData["nomark"] = "nomark";
+                }
+            }
             return View(classes);
         }
-
-    }
+       
+        }
 }

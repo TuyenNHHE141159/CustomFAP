@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using MyFAPWebApp.Models
+@{
+    List<News> top5news = ViewBag.top5News;
+    News news = ViewBag.News;
+
+}
+<div class="container">
+    <div class="details">
+        @if (news != null)
+        {
+            <div>@news.Title</div>
+            <div>Đăng bởi: @news.CreatedBy lúc @news.CreatedDate?.ToString("dd/MM/yy hh:mm")</div>
+            <div>Nội dung: @news.Desciption</div>
+        }
+   
+    </div>
+    <div class="top5">
+        <div style="font-weight:bold">Các tin khác:</div>
+        @if (top5news != null)
+        {
+            @foreach (var item in top5news)
+            {
+
+                <ul>
+                    <li><a href="NewsDetails?news_id=@item.NewsId" style="text-decoration:none">@item.CreatedDate?.ToString("dd/MM/yy hh:mm"): @item.Title</a>
+                        </li>
+
+                </ul>
+            }
+        }
+
+    </div>
+</div>

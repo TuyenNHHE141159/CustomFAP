@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+@using MyFAPWebApp.Models
+@{
+    List<News> top5news = ViewBag.top5News;
+}
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <div class="container">
+        <form>
+            <div class="menu">
+                <div class="title">
+                     University Academic Portal
+                </div>
+                <div class="link">
+                    <div class="profile"><a href="#"></a></div>
+                   
+                </div>
+            </div>
+
+            <div class="home">
+                <div class="left">
+                    <div class="top-news">
+                        <div class="news-title">News</div>
+                        @if(top5news!=null){
+                        @foreach (var item in top5news)
+                        {
+
+                            <ul>
+                                    <li><a href="NewsDetails?news_id=@item.NewsId" style="text-decoration:none">@item.CreatedDate?.ToString("dd/MM/yy hh:mm"): @item.Title</a></li>
+                                    
+                            </ul>
+                        }
+                        }
+                        <a href="#">
+                            More
+                        </a>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="component">
+                        <h2>Academic Information</h2>
+                        <div class="information">
+                            <div class="title">Information Access</div>
+                            <ul>
+                                <li><a href="StudentClasses">List Student In Class</a></li>
+                            </ul>
+                        </div>
+                        <div class="report">
+                            <div class="title">Reports</div>
+                            <ul>
+                                <li><a asp-area="" asp-controller="StudentGrade" asp-action="Index">Mark Report</a> (Báo cáo điểm)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<footer></footer>
+</html>
