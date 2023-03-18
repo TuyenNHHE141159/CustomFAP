@@ -1,0 +1,22 @@
+﻿
+@model List<News>
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        
+        <ul>
+            <li><a href="NewsDetails?news_id=@item.NewsId" style="text-decoration:none">@item.CreatedDate?.ToString("dd/MM/yy hh:mm"): @item.Title</a></li>
+
+        </ul>
+        }
+    }
+    
+
+
+
+
+
+
+
+

@@ -1,12 +1,46 @@
 ﻿<!DOCTYPE html>
 @using MyFAPWebApp.Models
+@model List<News>
+
 @{
     List<News> top5news = ViewBag.top5News;
 }
+
+
 <html>
 <head>
     <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+<script>
+    $(function () {
+        var skipCount = 3;
+        var takeCount = 3;
+        var url = '@Url.Action("LoadMoreNews", "HomePage")';
+
+        $('#btnLoadMoreNews').on('click', function (event) {
+            event.preventDefault();
+            $.ajax({
+                
+                url: url,
+                data: { skipCount: skipCount },
+                success: function (data) {
+                    $('#newsList').append(data);
+                    console.log(data);
+                    skipCount += takeCount;
+                    if (data.trim().length === 0) {
+                        $('#btnLoadMoreNews').hide();
+                        $('#newsList').append("Đã hết tin rồi!");
+                    }
+
+                }
+            });
+        });
+
+    });
+
+
+</script>
 <body>
     <div class="container">
         <form>
@@ -34,9 +68,16 @@
                             </ul>
                         }
                         }
-                        <a href="#">
+                        <div id="newsList">
+                            @Html.Partial("_NewsList")
+                        </div>
+                        <button id="btnLoadMoreNews">
                             More
-                        </a>
+                        </button>
+                       
+                       
+                       
+                        
                     </div>
                 </div>
                 <div class="right">

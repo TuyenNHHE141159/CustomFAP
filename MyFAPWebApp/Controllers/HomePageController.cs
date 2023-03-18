@@ -11,7 +11,7 @@ namespace MyFAPWebApp.Controllers
         {
             var top5News = context.News
     .OrderByDescending(n => n.CreatedDate)
-    .Take(5)
+    .Take(3)
     .Select(n => new {n.NewsId,n.CreatedDate, n.Title });
             List<News> list = new List<News>();
             foreach (var n in top5News)
@@ -25,5 +25,15 @@ namespace MyFAPWebApp.Controllers
             ViewData["top5News"] = list;
             return View();
         }
+        public ActionResult LoadMoreNews(int skipCount)
+        {
+            var news = context.News.OrderByDescending(n => n.CreatedDate).Skip(skipCount).Take(3).ToList();
+            if (news.Count == 0)
+            {
+                //return new EmptyResult();
+            }
+            return PartialView("_NewsList", news);
+        }
+        
     }
 }
