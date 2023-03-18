@@ -6,7 +6,12 @@ namespace MyFAPWebApp.Controllers
 {
     public class HomePageController : Controller
     {
-        private readonly MyFapContext context=new();
+        private readonly MyFapContext context;
+
+        public HomePageController(MyFapContext context)
+        {
+            this.context = context;
+        }
         public IActionResult Index()
         {
             var top5News = context.News

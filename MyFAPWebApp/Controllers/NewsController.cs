@@ -6,7 +6,11 @@ namespace MyFAPWebApp.Controllers
 {
     public class NewsController : Controller
     {
-        private readonly MyFapContext myFapContext= new MyFapContext();
+        private readonly MyFapContext myFapContext;
+        public NewsController(MyFapContext myFapContext)
+        {
+            this.myFapContext = myFapContext;
+        }
         // GET: NewsController
         public ActionResult Index()
         {

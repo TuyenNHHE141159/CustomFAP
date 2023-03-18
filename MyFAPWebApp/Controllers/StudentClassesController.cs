@@ -5,7 +5,12 @@ namespace MyFAPWebApp.Controllers
 {
     public class StudentClassesController : Controller
     {
-        private readonly MyFapContext context = new();
+        private readonly MyFapContext context;
+        public StudentClassesController(MyFapContext context)
+        {
+            this.context = context;
+        }
+
         public IActionResult Index(string class_id, string subject_id)
         {
             string studentid = "HE153453";

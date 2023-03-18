@@ -6,7 +6,11 @@ namespace MyFAPWebApp.Controllers
     
     public class NewsDetailsController : Controller
     {
-        private readonly MyFapContext context = new();
+        private readonly MyFapContext context;
+        public NewsDetailsController(MyFapContext context)
+        {
+            this.context = context;
+        }
         public IActionResult Index(int news_id)
         {
             if(news_id != 0)

@@ -7,7 +7,11 @@ namespace MyFAPWebApp.Controllers
 {
     public class StudentGradeController : Controller
     {
-        private readonly MyFapContext myFapContext= new MyFapContext();
+        private readonly MyFapContext myFapContext;
+        public StudentGradeController(MyFapContext myFapContext)
+        {
+            this.myFapContext = myFapContext;
+        }
 
         public IActionResult Index(string student_id, string subject_id)
         {
